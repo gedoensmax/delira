@@ -40,7 +40,6 @@ def get_directories(directory):
             if os.path.isdir(os.path.join(directory, x))]
 
 
-
 def get_files(directory):
     return [os.path.join(directory, x)
             for x in os.listdir(directory)
@@ -86,4 +85,3 @@ def process_dir(code_dir, doc_dir, **kwargs):
             f.write(create_docs_for_file(file, **kwargs))
 
         files_to_include.append(file.strip(code_dir).strip(".py"))
-

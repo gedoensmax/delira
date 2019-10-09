@@ -17,10 +17,10 @@ Sampler define the way of iterating over the dataset and returning samples.
     :undoc-members:
     :show-inheritance:
 
-:hidden:`LambdaSampler`
-~~~~~~~~~~~~~~~~~~~~~~~
+:hidden:`BatchSampler`
+~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: LambdaSampler
+.. autoclass:: BatchSampler
     :members:
     :undoc-members:
     :show-inheritance:
@@ -33,18 +33,18 @@ Sampler define the way of iterating over the dataset and returning samples.
     :undoc-members:
     :show-inheritance:
 
-:hidden:`PrevalenceRandomSampler`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:hidden:`RandomSamplerWithReplacement`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: PrevalenceRandomSampler
+.. autoclass:: RandomSamplerWithReplacement
     :members:
     :undoc-members:
     :show-inheritance:
 
-:hidden:`StoppingPrevalenceRandomSampler`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:hidden:`RandomSamplerNoReplacement`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: StoppingPrevalenceRandomSampler
+.. autoclass:: RandomSamplerNoReplacement
     :members:
     :undoc-members:
     :show-inheritance:
@@ -57,18 +57,10 @@ Sampler define the way of iterating over the dataset and returning samples.
     :undoc-members:
     :show-inheritance:
 
-:hidden:`PrevalenceSequentialSampler`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:hidden:`PrevalenceRandomSampler`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: PrevalenceSequentialSampler
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:hidden:`StoppingPrevalenceSequentialSampler`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: StoppingPrevalenceSequentialSampler
+.. autoclass:: PrevalenceRandomSampler
     :members:
     :undoc-members:
     :show-inheritance:
@@ -80,3 +72,4 @@ Sampler define the way of iterating over the dataset and returning samples.
     :members:
     :undoc-members:
     :show-inheritance:
+

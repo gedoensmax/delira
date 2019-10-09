@@ -11,12 +11,23 @@ The datamanager wraps a dataloader and combines it with augmentations
 and multiprocessing.
 
 :hidden:`DataManager`
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: DataManager
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. currentmodule:: delira.data_loading.augmenter
+
+:hidden:`AbstractAugmenter`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: AbstractAugmenter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 :hidden:`Augmenter`
 ~~~~~~~~~~~~~~~~~~~

@@ -24,10 +24,26 @@ To implement custom datasets you should derive the :class:`AbstractDataset`
     :undoc-members:
     :show-inheritance:
 
-:hidden:`BaseLazyDataset`
+:hidden:`DictDataset`
+~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: DictDataset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:hidden:`IterableDataset`
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: BaseLazyDataset
+.. autoclass:: IterableDataset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:hidden:`BlankDataset`
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: BlankDataset
     :members:
     :undoc-members:
     :show-inheritance:
@@ -36,6 +52,14 @@ To implement custom datasets you should derive the :class:`AbstractDataset`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: BaseCacheDataset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+:hidden:`BaseLazyDataset`
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: BaseLazyDataset
     :members:
     :undoc-members:
     :show-inheritance:
@@ -52,38 +76,6 @@ To implement custom datasets you should derive the :class:`AbstractDataset`
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: ConcatDataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:hidden:`BlankDataset`
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: BlankDataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:hidden:`Nii3DLazyDataset`
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: Nii3DLazyDataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:hidden:`Nii3DCacheDataset`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: Nii3DCacheDataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:hidden:`TorchvisionClassificationDataset`:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autoclass:: TorchvisionClassificationDataset
     :members:
     :undoc-members:
     :show-inheritance:

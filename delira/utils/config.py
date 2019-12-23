@@ -544,7 +544,7 @@ class Config(dict):
                             parser.add_argument(name, type=type(val[0]))
                         else:
                             parser.add_argument(name)
-                    elif issubclass(val, type) or inspect.isclass(val):
+                    elif isinstance(val, type) or inspect.isclass(val):
                         parser.add_argument(name, type=val)
                     else:
                         parser.add_argument(name, type=type(val))

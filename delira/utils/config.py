@@ -541,9 +541,9 @@ class Config(dict):
                         add_val(val, prefix=key + '.')
                     elif isinstance(val, collections.Iterable):
                         if len(val) > 0 and type(val[0]) != type:
-                            parser.add_argument(name, type=type(val[0]))
+                            parser.add_argument(name, nargs='+', type=type(val[0]) ,default=val)
                         else:
-                            parser.add_argument(name)
+                            parser.add_argument(name ,nargs='+', type=type(val[0]))
                     elif isinstance(val, type) or inspect.isclass(val):
                         parser.add_argument(name, type=val)
                     else:

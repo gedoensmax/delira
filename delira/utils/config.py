@@ -538,7 +538,7 @@ class Config(dict):
                     if isinstance(val, int):
                         parser.add_argument(name, type=type(val))
                     elif isinstance(val, str):
-                        add_val(val, type=type(val))
+                        parser.add_argument(name, type=type(val))
                     elif isinstance(val, collections.Mapping):
                         add_val(val, prefix=key + '.')
                     elif isinstance(val, collections.Iterable):

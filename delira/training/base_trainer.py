@@ -473,7 +473,9 @@ class BaseNetworkTrainer(Predictor):
         is_best = False
         new_val_score = best_val_score
 
-        if reduce_mode == 'mean':
+        if callable(reduce_mode):
+            reduce_fn = reduce_mode
+        elif reduce_mode == 'mean':
             def reduce_fn(batch):
                 return np.mean(batch)
         elif reduce_mode == 'sum':

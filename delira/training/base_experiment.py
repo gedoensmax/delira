@@ -321,7 +321,8 @@ class BaseExperiment(object):
 
         return trainer.train(num_epochs, train_data, val_data,
                              self.val_score_key, kwargs.get("val_score_mode",
-                                                            "lowest"), **kwargs)
+                                                            "lowest"), kwargs.get("reduce_mode",
+                                                            "mean"))
 
     def resume(self, save_path: str, train_data: DataManager,
                val_data: DataManager = None,

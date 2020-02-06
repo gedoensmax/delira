@@ -529,13 +529,23 @@ class Config(dict):
         '''
         parser = argparse.ArgumentParser(allow_abbrev=False)
 
+        def str2bool(v):
+            if v.lower() in ('yes', 'true', 't', 'y', '1'):
+                return True
+            elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+                return False
+            else:
+                raise argparse.ArgumentTypeError('Boolean value expected.')
+
         def add_val(dict_like, prefix=''):
             for key, val in dict_like.items():
                 name = "--{}".format(prefix + key)
                 if val is None:
                     parser.add_argument(name)
                 else:
-                    if isinstance(val, int):
+                    if type(val) == bool:
+                        parser.add_argument(name, type=str2bool)
+                    elif isinstance(val, int):
                         parser.add_argument(name, type=type(val))
                     elif isinstance(val, str):
                         parser.add_argument(name, type=type(val))

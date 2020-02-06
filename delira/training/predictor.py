@@ -273,6 +273,8 @@ class Predictor(object):
             iterable = enumerate(batchgen)
 
         batch_list = []
+        all_preds = LookupConfig()
+        data_dict = LookupConfig()
 
         for i, batch in iterable:
             Predictor._at_iter_begin(self, iter_num=i)
@@ -312,24 +314,28 @@ class Predictor(object):
                 preds_batch.update(batch_dict)
                 preds_batch.update(preds)
 
-                # calculate metrics for predicted batch
-                _metric_vals = self.calc_metrics(preds_batch,
-                                                 metrics=metrics,
-                                                 metric_keys=metric_keys)
+                if len(all_preds) == 0:
+                    all_preds = preds_batch
+                else:
+                    for k in all_preds.keys():
+                        all_preds[k] = np.concatenate([all_preds[k], preds_batch[k]])
 
-                self._at_iter_end(data_dict={**batch_dict, **preds_batch},
-                                  metrics={"val_" + k: v
-                                           for k, v in _metric_vals.items()},
-                                  iter_num=i)
+        # calculate metrics for predicted batch
+        _metric_vals = self.calc_metrics(all_preds,
+                                         metrics=metrics,
+                                         metric_keys=metric_keys)
 
-                yield preds, _metric_vals
+        self._at_iter_end(data_dict={**data_dict, **all_preds},
+                          metrics={"val_" + k: v
+                                   for k, v in _metric_vals.items()},
+                          iter_num=i)
 
-                batch_list = []
+        batch_list = []
 
         datamgr.batch_size = orig_batch_size
         datamgr.n_process_augmentation = orig_num_aug_processes
 
-        return
+        yield all_preds, _metric_vals
 
     def predict_data_mgr_cache_metrics_only(self, datamgr, batchsize=None,
                                             metrics=None, metric_keys=None,

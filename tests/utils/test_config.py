@@ -19,6 +19,7 @@ class ConfigTest(unittest.TestCase):
         self.config_cls = Config
         self.example_dict = {
             "shallowStr": "a",
+            "trueBoolean": True,
             "shallowNum": 1,
             "deep": {"deepStr": "b", "deepNum": 2},
             "nestedListOrig": [{"dictList": [1, 2, 3]}],
@@ -246,12 +247,14 @@ class ConfigTest(unittest.TestCase):
         testargs = ['--shallowNum', '10',
                     '--deep.deepStr', 'check',
                     '--testlist', 'ele1', 'ele2',
+                    '--trueBoolean', 'False',
                     '--setflag']
         # placeholder pyfile because argparser omits first argument from sys
         # argv
         with patch.object(sys, 'argv', ['pyfile.py'] + testargs):
             cf.update_from_argparse(add_unknown_items=True)
         self.assertEqual(cf['shallowNum'], int(testargs[1]))
+        self.assertEqual(cf['trueBoolean'], False)
         self.assertEqual(cf['deep']['deepStr'], testargs[3])
         self.assertEqual(cf['testlist'], testargs[5:7])
         self.assertEqual(cf['setflag'], True)
@@ -363,7 +366,7 @@ class DeliraConfigTest(LookupConfigTest):
                           "    __type__:\n"
                           "      module: delira.utils.config\n"
                           "      name: LookupConfig\n".format(
-                              cf["_timestamp"])))
+                             cf["_timestamp"])))
 
         self.assertEqual(cf_str_full,
                          ("__convert__:\n"
@@ -379,7 +382,7 @@ class DeliraConfigTest(LookupConfigTest):
                           "    __type__:\n"
                           "      module: delira.utils.config\n"
                           "      name: DeliraConfig\n".format(
-                              cf["_timestamp"], cf["_version"])))
+                             cf["_timestamp"], cf["_version"])))
 
     @unittest.skipUnless(
         check_for_no_backend(),

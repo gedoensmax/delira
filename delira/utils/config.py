@@ -32,7 +32,7 @@ def non_string_warning(func):
         if not isinstance(key, str):
             warnings.warn("The key {} is not a string, but a {}. "
                           "This may lead to unwanted behavior!".format(
-                              key, type(key)), RuntimeWarning)
+                key, type(key)), RuntimeWarning)
 
         return func(config, key, *args, **kwargs)
 
@@ -555,7 +555,7 @@ class Config(dict):
                         if len(val) > 0 and type(val[0]) != type:
                             parser.add_argument(name, nargs='+', type=type(val[0]))
                         else:
-                            parser.add_argument(name ,nargs='+', type=type(val[0]))
+                            parser.add_argument(name, nargs='+', type=type(val[0]))
                     elif isinstance(val, type) or inspect.isclass(val):
                         parser.add_argument(name, type=val)
                     else:

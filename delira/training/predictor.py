@@ -3,7 +3,7 @@ import gc
 
 import numpy as np
 from tqdm import tqdm
-
+from collections import defaultdict
 from delira.data_loading import DataManager
 from delira.training.utils import convert_to_numpy_identity
 from ..utils.config import LookupConfig
@@ -273,8 +273,7 @@ class Predictor(object):
             iterable = enumerate(batchgen)
 
         batch_list = []
-        all_preds = LookupConfig()
-        data_dict = LookupConfig()
+        result_list = []
 
         for i, batch in iterable:
             Predictor._at_iter_begin(self, iter_num=i)
@@ -314,18 +313,25 @@ class Predictor(object):
                 preds_batch.update(batch_dict)
                 preds_batch.update(preds)
 
-                if len(all_preds) == 0:
-                    all_preds = preds_batch
-                else:
-                    for k in all_preds.keys():
-                        all_preds[k] = np.concatenate([all_preds[k], preds_batch[k]])
+                result_list.append(preds_batch)
+
+        all_preds = defaultdict(list)
+
+        # concatenate dict entities by keys
+        for _result_dict in result_list:
+            for key, val in _result_dict.items():
+                all_preds[key].extend(val)
+
+        # convert list to numpy arrays
+        for key, val_list in all_preds.items():
+            all_preds[key] = np.stack(val_list)
 
         # calculate metrics for predicted batch
-        _metric_vals = self.calc_metrics(all_preds,
+        _metric_vals = self.calc_metrics(LookupConfig(all_preds),
                                          metrics=metrics,
                                          metric_keys=metric_keys)
 
-        self._at_iter_end(data_dict={**data_dict, **all_preds},
+        self._at_iter_end(data_dict={**all_preds},
                           metrics={"val_" + k: v
                                    for k, v in _metric_vals.items()},
                           iter_num=i)

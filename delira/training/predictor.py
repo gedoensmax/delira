@@ -3,7 +3,7 @@ import gc
 
 import numpy as np
 from tqdm import tqdm
-from collections import defaultdict
+
 from delira.data_loading import DataManager
 from delira.training.utils import convert_to_numpy_identity
 from ..utils.config import LookupConfig
@@ -273,7 +273,6 @@ class Predictor(object):
             iterable = enumerate(batchgen)
 
         batch_list = []
-        result_list = []
 
         for i, batch in iterable:
             Predictor._at_iter_begin(self, iter_num=i)
@@ -313,35 +312,24 @@ class Predictor(object):
                 preds_batch.update(batch_dict)
                 preds_batch.update(preds)
 
-                result_list.append(preds_batch)
+                # calculate metrics for predicted batch
+                _metric_vals = self.calc_metrics(preds_batch,
+                                                 metrics=metrics,
+                                                 metric_keys=metric_keys)
 
-        all_preds = defaultdict(list)
+                self._at_iter_end(data_dict={**batch_dict, **preds_batch},
+                                  metrics={"val_" + k: v
+                                           for k, v in _metric_vals.items()},
+                                  iter_num=i)
 
-        # concatenate dict entities by keys
-        for _result_dict in result_list:
-            for key, val in _result_dict.items():
-                all_preds[key].extend(val)
+                yield preds, _metric_vals
 
-        # convert list to numpy arrays
-        for key, val_list in all_preds.items():
-            all_preds[key] = np.stack(val_list)
-
-        # calculate metrics for predicted batch
-        _metric_vals = self.calc_metrics(LookupConfig(all_preds),
-                                         metrics=metrics,
-                                         metric_keys=metric_keys)
-
-        self._at_iter_end(data_dict={**all_preds},
-                          metrics={"val_" + k: v
-                                   for k, v in _metric_vals.items()},
-                          iter_num=i)
-
-        batch_list = []
+                batch_list = []
 
         datamgr.batch_size = orig_batch_size
         datamgr.n_process_augmentation = orig_num_aug_processes
 
-        yield all_preds, _metric_vals
+        return
 
     def predict_data_mgr_cache_metrics_only(self, datamgr, batchsize=None,
                                             metrics=None, metric_keys=None,

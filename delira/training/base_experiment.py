@@ -50,6 +50,7 @@ class BaseExperiment(object):
                  checkpoint_freq=1,
                  trainer_cls=BaseNetworkTrainer,
                  predictor_cls=Predictor,
+                 continue_training=True,
                  **kwargs):
         """
 
@@ -109,9 +110,12 @@ class BaseExperiment(object):
         if save_path is None:
             save_path = os.path.abspath(".")
 
-        self.save_path = os.path.join(save_path, name,
-                                      str(datetime.now().strftime(
-                                          "%y-%m-%d_%H-%M-%S")))
+        if continue_training:
+            self.save_path = os.path.join(save_path, name)
+        else:
+            self.save_path = os.path.join(save_path,
+                                          str(datetime.now().strftime(
+                                              "%y-%m-%d_%H-%M-%S")))
 
         if os.path.isdir(self.save_path):
             logger.warning("Save Path %s already exists")
